@@ -39,8 +39,9 @@ export const BackgroundGradientAnimation = ({
   const [curY, setCurY] = useState(0);
   const [tgX, setTgX] = useState(0);
   const [tgY, setTgY] = useState(0);
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && typeof document !== "undefined") {
       document.body.style.setProperty(
         "--gradient-background-start",
         gradientBackgroundStart
@@ -60,7 +61,7 @@ export const BackgroundGradientAnimation = ({
     }
 
     return () => {
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && typeof document !== "undefined") {
         document.body.style.removeProperty("--gradient-background-start");
         document.body.style.removeProperty("--gradient-background-end");
         document.body.style.removeProperty("--first-color");
@@ -73,7 +74,18 @@ export const BackgroundGradientAnimation = ({
         document.body.style.removeProperty("--blending-value");
       }
     };
-  }, []);
+  }, [
+    blendingValue,
+    fifthColor,
+    firstColor,
+    fourthColor,
+    gradientBackgroundEnd,
+    gradientBackgroundStart,
+    pointerColor,
+    secondColor,
+    size,
+    thirdColor,
+  ]);
 
   useEffect(() => {
     function move() {
@@ -88,7 +100,7 @@ export const BackgroundGradientAnimation = ({
     }
 
     move();
-  }, [tgX, tgY]);
+  }, [tgX, tgY, curX, curY]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (interactiveRef.current) {
